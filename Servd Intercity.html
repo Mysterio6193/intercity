@@ -2154,6 +2154,10 @@ Object.assign(window, { fmt, Ph, Diet, StatusBar, TopBar, Stepper, Toast, Sheet,
 
 const { useState: useS, useEffect: useE, useRef: useR, useMemo: useM } = React;
 
+function BottomSpacer({ cartCount }){
+  return <div style={{ height: cartCount > 0 ? 140 : 80 }} />;
+}
+
 // ─────────────────────────────────────────────────────────────────────────────
 // 1. QR LANDING
 // ─────────────────────────────────────────────────────────────────────────────
@@ -2238,7 +2242,7 @@ function QRLanding({ go, hotel, currency }){
 // ─────────────────────────────────────────────────────────────────────────────
 // 2. HOME / CATEGORY (with editorial header + masonry)
 // ─────────────────────────────────────────────────────────────────────────────
-function Home({ go, hotel, openAI, recentOrder }){
+function Home({ go, hotel, openAI, recentOrder, cartCount }){
   // Time-aware greeting
   const hr = 21; // demo: locked to evening for now
   const greeting = hr < 12 ? "Good morning" : hr < 17 ? "Good afternoon" : "Good evening";
@@ -2464,6 +2468,7 @@ function Home({ go, hotel, openAI, recentOrder }){
             </div>
           </div>
         </div>
+        <BottomSpacer cartCount={cartCount}/>
       </div>
     </div>
   );
@@ -2472,7 +2477,7 @@ function Home({ go, hotel, openAI, recentOrder }){
 // ─────────────────────────────────────────────────────────────────────────────
 // 3. MENU (search + filters + masonry of items)
 // ─────────────────────────────────────────────────────────────────────────────
-function Menu({ go, initialCat, openAI }){
+function Menu({ go, initialCat, openAI, cartCount }){
   const [tab, setTab] = useS(initialCat || "bfast");
   const [q, setQ] = useS("");
   const [filters, setFilters] = useS([]);
@@ -2576,6 +2581,7 @@ function Menu({ go, initialCat, openAI }){
             </div>
           ) : null}
         </div>
+        <BottomSpacer cartCount={cartCount}/>
       </div>
     </div>
   );
@@ -3505,7 +3511,7 @@ function Schedule({ go, onSchedule }){
 // ─────────────────────────────────────────────────────────────────────────────
 // 12. STAY / Account (small)
 // ─────────────────────────────────────────────────────────────────────────────
-function Stay({ go, hotel, openAI }){
+function Stay({ go, hotel, openAI, cartCount }){
   return (
     <div className="screen screen-fade" data-screen-label="Stay">
       <div className="scroll">
@@ -3621,6 +3627,7 @@ function Stay({ go, hotel, openAI }){
             </div>
           </div>
         </div>
+        <BottomSpacer cartCount={cartCount}/>
       </div>
     </div>
   );
@@ -3738,15 +3745,15 @@ function App(){
   let screen;
   switch(cur.s){
     case "qr":       screen = <QRLanding go={go} hotel={hotel} currency={t.currency}/>; break;
-    case "home":     screen = <Home go={go} hotel={hotel} openAI={()=>setAiOpen(true)} recentOrder={hasOrder}/>; break;
-    case "menu":     screen = <Menu go={go} initialCat={cur.cat} openAI={()=>setAiOpen(true)}/>; break;
+    case "home":     screen = <Home go={go} hotel={hotel} openAI={()=>setAiOpen(true)} recentOrder={hasOrder} cartCount={cart.length}/>; break;
+    case "menu":     screen = <Menu go={go} initialCat={cur.cat} openAI={()=>setAiOpen(true)} cartCount={cart.length}/>; break;
     case "item":     screen = <ItemDetail id={cur.id} go={go} onAdd={addToCart}/>; break;
     case "cart":     screen = <Cart go={go} cart={cart} setCart={setCart} hotel={hotel}/>; break;
     case "checkout": screen = <Checkout go={go} cart={cart} hotel={hotel} ph2={t.phase2} scheduledTime={scheduledTime} onPlace={placeOrder}/>; break;
     case "payment":  screen = <Payment go={go} total={cur.total} onSuccess={()=> placeOrder({pay:"now", timing:"asap", total:cur.total, wa:true}) }/>; break;
     case "feedback": screen = <Feedback go={go} hotel={hotel}/>; break;
     case "schedule": screen = <Schedule go={go} onSchedule={handleScheduleConfirm}/>; break;
-    case "stay":     screen = <Stay go={go} hotel={hotel} openAI={()=>setAiOpen(true)}/>; break;
+    case "stay":     screen = <Stay go={go} hotel={hotel} openAI={()=>setAiOpen(true)} cartCount={cart.length}/>; break;
     case "tracking": screen = <Tracking go={go} cart={activeOrder?.cart || []} mixedDemo={t.showMixed} ph2={t.phase2} hotel={hotel} openAI={()=>setAiOpen(true)}/>; break;
     default: screen = <div className="pad">Not found</div>;
   }
