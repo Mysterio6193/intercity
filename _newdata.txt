@@ -1,0 +1,191 @@
+const HOTEL = {
+  name: "Intercity",
+  loc: "House of Tandoor · Multi-cuisine",
+  room: "412",
+  guest: "Mr. Kapoor",
+  phone: "0755-2585801",
+  serveTime: "20–30 min",
+  gst: "5% GST applicable",
+};
+
+const CATS = [
+  { id:"bfast",   t:"Breakfast",        s:"7:00 — 10:30",         h:180, ph2:false },
+  { id:"soup",    t:"Soups",            s:"Veg & non-veg",        h:120, ph2:false },
+  { id:"starter", t:"Starters",         s:"Tandoor · Salad · Kebab", h:200, ph2:false },
+  { id:"mains",   t:"Indian Mains",     s:"Paneer · Chicken · Mutton", h:240, ph2:false },
+  { id:"rice",    t:"Rice & Breads",    s:"Biryani · Naan · Roti", h:160, ph2:false },
+  { id:"chinese", t:"Chinese",          s:"Manchurian · Noodles · Rice", h:140, ph2:false },
+  { id:"bev",     t:"Beverages",        s:"Tea · Shakes · Mocktails", h:200, ph2:false },
+  { id:"des",     t:"Desserts",         s:"Sweet finish",         h:130, ph2:false },
+];
+
+const ITEMS = [
+  // ── Breakfast ──────────────────────────────────────────────────────
+  { id:"bf1", cat:"bfast", n:"Stuffed paratha with curd", d:"Choice of aloo, gobhi, methi or mooli. Served with fresh curd and pickle.", p:150, prep:"18 min", diet:["veg"], pop:true, h:200, chef:"Hand-rolled to order. Tell us your stuffing.", allergens:["Gluten","Dairy"] },
+  { id:"bf2", cat:"bfast", n:"Poha", d:"Flattened rice tempered with mustard, curry leaves, peanuts.", p:80, prep:"12 min", diet:["veg","vgn"], quick:true, h:160, allergens:[] },
+  { id:"bf3", cat:"bfast", n:"Idli sambhar", d:"Steamed rice cakes with lentil broth and coconut chutney.", p:90, prep:"15 min", diet:["veg","vgn"], h:180, allergens:[] },
+  { id:"bf4", cat:"bfast", n:"Masala dosa", d:"Crisp rice-lentil crêpe filled with spiced potato.", p:120, prep:"18 min", diet:["veg","vgn"], pop:true, h:200, allergens:[] },
+  { id:"bf5", cat:"bfast", n:"French fries", d:"Hand-cut, salted, served hot.", p:120, prep:"12 min", diet:["veg"], quick:true, h:160, allergens:[] },
+  { id:"bf6", cat:"bfast", n:"Paneer pakoda", d:"Cottage cheese fritters in gram flour batter, fried crisp.", p:140, prep:"15 min", diet:["veg"], h:180, allergens:["Dairy"] },
+  { id:"bf7", cat:"bfast", n:"Cheese sandwich", d:"Toasted bread, melted cheese, mint chutney.", p:120, prep:"12 min", diet:["veg"], quick:true, h:170, allergens:["Gluten","Dairy"] },
+  { id:"bf8", cat:"bfast", n:"Vegetable club sandwich", d:"Triple-decker with paneer, vegetables, fries on the side.", p:150, prep:"15 min", diet:["veg"], h:190, allergens:["Gluten","Dairy"] },
+  { id:"bf9", cat:"bfast", n:"Omelette with toast", d:"Two eggs, choice of masala or plain. Buttered toast.", p:110, prep:"10 min", diet:["nv"], quick:true, h:170, allergens:["Egg","Gluten","Dairy"] },
+  { id:"bf10", cat:"bfast", n:"Bread butter & jam", d:"White or brown toast, butter pat, mixed fruit jam.", p:60, prep:"5 min", diet:["veg"], quick:true, h:130, allergens:["Gluten","Dairy"] },
+
+  // ── Soups ──────────────────────────────────────────────────────────
+  { id:"so1", cat:"soup", n:"Cream of tomato", d:"Rich plum tomatoes finished with a dash of cream.", p:90, prep:"12 min", diet:["veg"], quick:true, h:170, allergens:["Dairy"] },
+  { id:"so2", cat:"soup", n:"Hot & sour soup (veg)", d:"Peppery, tangy, the Chinese classic.", p:99, prep:"15 min", diet:["veg"], pop:true, h:170, allergens:["Soy"] },
+  { id:"so3", cat:"soup", n:"Cream of mushroom", d:"Boiled mushrooms blended smooth, topped with cream.", p:109, prep:"15 min", diet:["veg"], h:180, allergens:["Dairy"] },
+  { id:"so4", cat:"soup", n:"Veg clear soup", d:"Light broth, fresh vegetables. Ideal starter.", p:90, prep:"12 min", diet:["veg","vgn"], quick:true, h:160, allergens:[] },
+  { id:"so5", cat:"soup", n:"Veg manchow soup", d:"Hot, spicy, served with fried noodle garnish.", p:99, prep:"15 min", diet:["veg"], h:180, allergens:["Gluten","Soy"] },
+  { id:"so6", cat:"soup", n:"Sweet corn soup", d:"Sweet corn, corn flour, vegetables.", p:99, prep:"15 min", diet:["veg"], h:170, allergens:[] },
+  { id:"so7", cat:"soup", n:"Chicken clear soup", d:"Light chicken broth with shredded chicken and vegetables.", p:120, prep:"15 min", diet:["nv"], h:170, allergens:[] },
+  { id:"so8", cat:"soup", n:"Chicken hot & sour", d:"The classic, with chicken shreds. Peppery heat.", p:130, prep:"15 min", diet:["nv"], pop:true, h:180, allergens:["Soy"] },
+  { id:"so9", cat:"soup", n:"Mutton shorba", d:"Slow-simmered bone broth, whole spices, lime wedge.", p:150, prep:"20 min", diet:["nv"], h:190, chef:"Twenty minutes of patience. Worth every one.", allergens:[] },
+
+  // ── Starters — Veg ─────────────────────────────────────────────────
+  { id:"st1", cat:"starter", n:"Paneer tikka", d:"Cottage cheese marinated in mild spices, charcoal-roasted.", p:320, prep:"22 min", diet:["veg"], pop:true, h:220, allergens:["Dairy"] },
+  { id:"st2", cat:"starter", n:"Mushroom tikka", d:"Fresh button mushrooms, tandoor-roasted with mild spice.", p:350, prep:"22 min", diet:["veg"], h:200, allergens:["Dairy"] },
+  { id:"st3", cat:"starter", n:"Paneer tikka achari", d:"Paneer in pickling spices, cooked over charcoal.", p:320, prep:"22 min", diet:["veg"], h:200, allergens:["Dairy"] },
+  { id:"st4", cat:"starter", n:"Hara bhara kebab", d:"Spinach and mixed veg patties, deep-fried, mint sauce.", p:180, prep:"18 min", diet:["veg"], pop:true, h:170, allergens:["Gluten"] },
+  { id:"st5", cat:"starter", n:"Veg seekh kebab", d:"Mixed vegetable rolls on skewers, tandoor-cooked.", p:190, prep:"20 min", diet:["veg"], h:180, allergens:[] },
+  { id:"st6", cat:"starter", n:"Tandoori platter (veg)", d:"Chef's selection of tikkas and kebabs with salad.", p:450, prep:"28 min", diet:["veg"], h:240, chef:"My pick of the night, on one plate.", allergens:["Dairy"] },
+  { id:"sa1", cat:"starter", n:"Green salad", d:"Crisp cucumber, leaves, lemon wedge.", p:90, prep:"6 min", diet:["veg","vgn","jain"], quick:true, h:130, allergens:[] },
+  { id:"sa2", cat:"starter", n:"Kachumber salad", d:"Onion, tomato, cucumber, lemon, chaat masala.", p:90, prep:"6 min", diet:["veg","vgn"], quick:true, h:140, allergens:[] },
+  { id:"pp1", cat:"starter", n:"Roasted masala papad", d:"Papad topped with onion, tomato, chaat masala.", p:35, prep:"5 min", diet:["veg","vgn"], quick:true, h:120, allergens:[] },
+  { id:"pp2", cat:"starter", n:"Fried papad", d:"Plain, fried crisp.", p:30, prep:"4 min", diet:["veg","vgn","jain"], quick:true, h:110, allergens:[] },
+  // ── Starters — Non-veg ─────────────────────────────────────────────
+  { id:"ck1", cat:"starter", n:"Chicken tikka", d:"Boneless chicken marinated in yogurt and spices, charcoal-roasted.", p:350, prep:"22 min", diet:["nv"], pop:true, h:220, allergens:["Dairy"] },
+  { id:"ck2", cat:"starter", n:"Malai chicken tikka", d:"Cream-marinated chicken, mild spices, charcoal oven.", p:380, prep:"22 min", diet:["nv"], h:220, chef:"The gentlest thing from the tandoor.", allergens:["Dairy","Nuts"] },
+  { id:"ck3", cat:"starter", n:"Tandoori chicken (half)", d:"Whole leg and breast, classic red marinade, charcoal.", p:320, prep:"25 min", diet:["nv"], pop:true, h:240, allergens:["Dairy"] },
+  { id:"ck4", cat:"starter", n:"Chicken seekh kebab", d:"Minced chicken with herbs, cooked on skewers.", p:320, prep:"22 min", diet:["nv"], h:200, allergens:[] },
+  { id:"ck5", cat:"starter", n:"Chicken wings", d:"Fried crisp, tossed in house spice rub.", p:280, prep:"20 min", diet:["nv"], h:190, allergens:[] },
+  { id:"fh1", cat:"starter", n:"Fish tikka", d:"Boneless fish marinated in lemon, ginger-garlic, tandoor.", p:380, prep:"22 min", diet:["nv"], h:210, allergens:[] },
+  { id:"fh2", cat:"starter", n:"Fish finger", d:"Crumbed fish strips, deep-fried, tartar sauce.", p:350, prep:"18 min", diet:["nv"], h:180, allergens:["Gluten"] },
+  { id:"mt1", cat:"starter", n:"Mutton seekh kebab", d:"Spiced minced mutton on skewers, charcoal-finished.", p:380, prep:"25 min", diet:["nv"], h:210, allergens:[] },
+  { id:"mt2", cat:"starter", n:"Tandoori platter (non-veg)", d:"Chicken tikka, seekh, fish tikka, tandoori chicken.", p:650, prep:"30 min", diet:["nv"], h:250, chef:"Everything from the tandoor. For two.", allergens:["Dairy"] },
+
+  // ── Indian Mains — Veg ─────────────────────────────────────────────
+  { id:"pn1", cat:"mains", n:"Paneer butter masala", d:"Cottage cheese in tangy tomato makhani gravy.", p:310, prep:"22 min", diet:["veg"], pop:true, h:240, chef:"A house favourite. Best with butter naan.", allergens:["Dairy","Nuts"], pair:"br5" },
+  { id:"pn2", cat:"mains", n:"Kadai paneer", d:"Paneer and capsicum, freshly ground whole spices.", p:310, prep:"22 min", diet:["veg"], h:230, allergens:["Dairy"], pair:"br5" },
+  { id:"pn3", cat:"mains", n:"Palak paneer", d:"Cottage cheese in rich spinach gravy.", p:280, prep:"20 min", diet:["veg"], pop:true, h:220, allergens:["Dairy"], pair:"rc2" },
+  { id:"pn4", cat:"mains", n:"Paneer tikka masala", d:"Charcoal-cooked paneer in semi-rich gravy.", p:320, prep:"25 min", diet:["veg"], h:230, allergens:["Dairy","Nuts"], pair:"br5" },
+  { id:"sb1", cat:"mains", n:"Malai kofta", d:"Kofta stuffed with cheese, creamy rich gravy.", p:220, prep:"25 min", diet:["veg"], pop:true, h:230, chef:"Cheese hidden inside, cream outside.", allergens:["Dairy","Nuts","Gluten"], pair:"br5" },
+  { id:"sb2", cat:"mains", n:"Mixed veg", d:"Carrot, peas, cauliflower, beans, semi gravy.", p:199, prep:"20 min", diet:["veg"], h:200, allergens:["Dairy"] },
+  { id:"sb3", cat:"mains", n:"Channa masala", d:"Whole chickpeas in spiced semi gravy, ginger garnish.", p:180, prep:"20 min", diet:["veg","vgn"], h:190, allergens:[] },
+  { id:"sb4", cat:"mains", n:"Bhindi masala", d:"Lady-finger with onion cubes, semi gravy.", p:170, prep:"20 min", diet:["veg","vgn"], h:190, allergens:[] },
+  { id:"dl1", cat:"mains", n:"Dal fry", d:"Yellow dal tempered with onion, tomato, coriander, butter.", p:165, prep:"18 min", diet:["veg"], h:170, allergens:["Dairy"], pair:"rc2" },
+  { id:"dl2", cat:"mains", n:"Dal makhani", d:"Black dal and rajma slow-cooked in cream and white butter.", p:199, prep:"25 min", diet:["veg"], pop:true, h:210, allergens:["Dairy"], pair:"rc2" },
+  { id:"dl3", cat:"mains", n:"Dal Bukhara", d:"Black dal on slow fire, butter, garlic, tomato gravy.", p:220, prep:"25 min", diet:["veg"], h:210, chef:"Cooked overnight on slow fire. The way it should be.", allergens:["Dairy"], pair:"br5" },
+  // ── Indian Mains — Non-veg ─────────────────────────────────────────
+  { id:"nv1", cat:"mains", n:"Butter chicken", d:"Tandoori chicken in silky tomato-butter gravy.", p:380, prep:"22 min", diet:["nv"], pop:true, h:240, chef:"The dish that needs no introduction. Order extra naan.", allergens:["Dairy","Nuts"], pair:"br5" },
+  { id:"nv2", cat:"mains", n:"Chicken tikka masala", d:"Charcoal-cooked chicken in rich semi-dry masala.", p:380, prep:"25 min", diet:["nv"], h:230, allergens:["Dairy","Nuts"], pair:"br5" },
+  { id:"nv3", cat:"mains", n:"Kadai chicken", d:"Chicken and capsicum with freshly ground whole spices.", p:360, prep:"22 min", diet:["nv"], h:220, allergens:["Dairy"] },
+  { id:"nv4", cat:"mains", n:"Chicken korma", d:"Mild, creamy, cashew-and-onion gravy. Mughlai style.", p:380, prep:"25 min", diet:["nv"], h:230, allergens:["Dairy","Nuts"] },
+  { id:"nv5", cat:"mains", n:"Mutton rogan josh", d:"Kashmiri slow-cooked mutton, whole spices, red chilli.", p:420, prep:"30 min", diet:["nv"], pop:true, h:240, chef:"Patience is the only spice it really needs.", allergens:[] },
+  { id:"nv6", cat:"mains", n:"Mutton do pyaza", d:"Mutton with double onion — one in gravy, one crisped.", p:400, prep:"28 min", diet:["nv"], h:220, allergens:[] },
+  { id:"nv7", cat:"mains", n:"Keema mutter", d:"Minced mutton with green peas, semi-dry spiced.", p:350, prep:"22 min", diet:["nv"], h:200, allergens:[] },
+  { id:"nv8", cat:"mains", n:"Fish curry", d:"Boneless fish in tangy mustard-turmeric gravy.", p:380, prep:"22 min", diet:["nv"], h:210, allergens:[] },
+  { id:"nv9", cat:"mains", n:"Egg curry", d:"Boiled eggs in onion-tomato masala gravy.", p:180, prep:"18 min", diet:["nv"], h:180, allergens:["Egg"] },
+
+  // ── Rice & Breads ──────────────────────────────────────────────────
+  { id:"rc1", cat:"rice", n:"Steamed rice", d:"Plain long-grain basmati, steamed.", p:150, prep:"15 min", diet:["veg","vgn","jain"], h:170, allergens:[] },
+  { id:"rc2", cat:"rice", n:"Jeera rice", d:"Basmati tempered with cumin and ghee.", p:160, prep:"15 min", diet:["veg"], h:180, allergens:["Dairy"] },
+  { id:"rc4", cat:"rice", n:"Veg dum biryani", d:"Sealed and slow-steamed with vegetables and saffron.", p:220, prep:"30 min", diet:["veg"], pop:true, h:240, chef:"Open the seal at the table — that's the whole point.", allergens:["Dairy","Nuts"], pair:"cu3" },
+  { id:"rc5", cat:"rice", n:"Chicken biryani", d:"Bone-in chicken layered with basmati, saffron, dum-cooked.", p:280, prep:"30 min", diet:["nv"], pop:true, h:240, chef:"Our most ordered biryani. Sealed, steamed, served.", allergens:["Dairy","Nuts"], pair:"cu3" },
+  { id:"rc6", cat:"rice", n:"Mutton biryani", d:"Slow-cooked mutton pieces, saffron rice, sealed dum.", p:350, prep:"35 min", diet:["nv"], h:240, allergens:["Dairy","Nuts"], pair:"cu3" },
+  { id:"rc7", cat:"rice", n:"Egg biryani", d:"Boiled eggs layered in fragrant rice, mild spice.", p:200, prep:"25 min", diet:["nv"], h:200, allergens:["Egg","Dairy"] },
+  { id:"br1", cat:"rice", n:"Tandoori roti", d:"Whole-wheat bread, tandoor-baked.", p:30, prep:"8 min", diet:["veg","vgn"], quick:true, h:120, allergens:["Gluten"] },
+  { id:"br2", cat:"rice", n:"Butter roti", d:"Tandoori roti brushed with white butter.", p:40, prep:"8 min", diet:["veg"], quick:true, h:120, allergens:["Gluten","Dairy"] },
+  { id:"br4", cat:"rice", n:"Plain naan", d:"Soft leavened bread, tandoor-baked.", p:45, prep:"10 min", diet:["veg"], quick:true, h:140, allergens:["Gluten","Dairy"] },
+  { id:"br5", cat:"rice", n:"Butter naan", d:"Naan brushed generously with butter.", p:55, prep:"10 min", diet:["veg"], quick:true, pop:true, h:150, allergens:["Gluten","Dairy"] },
+  { id:"br6", cat:"rice", n:"Stuffed naan / kulcha", d:"Aloo, paneer or onion stuffing — your choice.", p:65, prep:"12 min", diet:["veg"], h:160, allergens:["Gluten","Dairy"] },
+  { id:"br7", cat:"rice", n:"Lachha paratha", d:"Layered, flaky, ghee-laced.", p:60, prep:"12 min", diet:["veg"], h:160, allergens:["Gluten","Dairy"] },
+  { id:"br8", cat:"rice", n:"Garlic naan", d:"Naan finished with roasted garlic and butter.", p:60, prep:"12 min", diet:["veg"], h:150, allergens:["Gluten","Dairy"] },
+  { id:"cu1", cat:"rice", n:"Boondi raita", d:"Curd, boondi, cumin powder.", p:99, prep:"8 min", diet:["veg"], quick:true, h:140, allergens:["Dairy","Gluten"] },
+  { id:"cu2", cat:"rice", n:"Mix veg raita", d:"Cucumber, carrot, tomato folded in curd.", p:90, prep:"8 min", diet:["veg"], quick:true, h:140, allergens:["Dairy"] },
+  { id:"cu3", cat:"rice", n:"Plain curd", d:"Set, chilled.", p:70, prep:"4 min", diet:["veg","jain"], quick:true, h:120, allergens:["Dairy"] },
+
+  // ── Chinese ────────────────────────────────────────────────────────
+  { id:"cn1", cat:"chinese", n:"Veg manchurian (dry / gravy)", d:"Veg balls in soy-ginger sauce.", p:180, prep:"20 min", diet:["veg"], pop:true, h:200, allergens:["Soy","Gluten"], pair:"cn2" },
+  { id:"cn2", cat:"chinese", n:"Veg hakka noodles", d:"Stir-fried noodles, julienned vegetables.", p:140, prep:"18 min", diet:["veg"], pop:true, h:190, allergens:["Gluten","Soy"] },
+  { id:"cn3", cat:"chinese", n:"Veg fried rice", d:"Wok-tossed basmati, vegetables, soy.", p:140, prep:"18 min", diet:["veg"], h:180, allergens:["Soy"] },
+  { id:"cn4", cat:"chinese", n:"Paneer chilli", d:"Cubed paneer, corn-flour coat, tossed in Chinese sauces.", p:275, prep:"22 min", diet:["veg"], h:220, allergens:["Dairy","Soy","Gluten"] },
+  { id:"cn5", cat:"chinese", n:"Chicken manchurian", d:"Battered chicken in hot soy-ginger-garlic sauce.", p:280, prep:"22 min", diet:["nv"], pop:true, h:210, allergens:["Soy","Gluten"] },
+  { id:"cn6", cat:"chinese", n:"Chilli chicken", d:"Boneless chicken, green chilli, onion, soy sauce.", p:280, prep:"22 min", diet:["nv"], h:210, allergens:["Soy","Gluten"] },
+  { id:"cn7", cat:"chinese", n:"Chicken hakka noodles", d:"Stir-fried noodles with chicken and vegetables.", p:220, prep:"20 min", diet:["nv"], h:200, allergens:["Gluten","Soy"] },
+  { id:"cn8", cat:"chinese", n:"Chicken fried rice", d:"Wok-tossed basmati with chicken, egg, soy.", p:220, prep:"20 min", diet:["nv"], h:190, allergens:["Egg","Soy"] },
+  { id:"cn9", cat:"chinese", n:"Egg fried rice", d:"Scrambled egg with basmati, spring onion, soy.", p:160, prep:"15 min", diet:["nv"], quick:true, h:180, allergens:["Egg","Soy"] },
+
+  // ── Beverages ──────────────────────────────────────────────────────
+  { id:"bh1", cat:"bev", n:"Tea / masala tea", d:"Single pour. Cardamom, ginger on request.", p:40, prep:"6 min", diet:["veg"], quick:true, h:140, allergens:["Dairy"] },
+  { id:"bh2", cat:"bev", n:"Coffee", d:"Hot, with milk and sugar.", p:45, prep:"5 min", diet:["veg"], quick:true, h:140, allergens:["Dairy"] },
+  { id:"bh3", cat:"bev", n:"Pot tea", d:"Two cups, a small pot.", p:70, prep:"8 min", diet:["veg"], quick:true, h:160, allergens:["Dairy"] },
+  { id:"bc1", cat:"bev", n:"Soft drink", d:"Coke, Sprite, Fanta. Chilled.", p:50, prep:"3 min", diet:["veg","vgn"], quick:true, h:140, allergens:[] },
+  { id:"bc2", cat:"bev", n:"Fresh lime soda", d:"Sweet or salted. Soda, ice.", p:70, prep:"5 min", diet:["veg","vgn","jain"], quick:true, h:150, allergens:[] },
+  { id:"bc4", cat:"bev", n:"Buttermilk", d:"Chilled chaas, cumin, mint, salt.", p:60, prep:"5 min", diet:["veg"], quick:true, h:140, allergens:["Dairy"] },
+  { id:"bc5", cat:"bev", n:"Lassi (sweet / salted)", d:"Thick, chilled yogurt drink.", p:80, prep:"5 min", diet:["veg"], quick:true, h:160, allergens:["Dairy"] },
+  { id:"mk3", cat:"bev", n:"Mint mojito", d:"Fresh mint, lime, soda, sugar.", p:140, prep:"7 min", diet:["veg","vgn","jain"], pop:true, quick:true, h:190, allergens:[] },
+  { id:"mk4", cat:"bev", n:"Strawberry mojito", d:"Strawberry crush, mint, lime, soda.", p:140, prep:"7 min", diet:["veg","vgn"], quick:true, h:190, allergens:[] },
+  { id:"sk1", cat:"bev", n:"Mango milkshake", d:"Alphonso pulp, milk, sugar. Add ice cream +₹20.", p:120, prep:"7 min", diet:["veg"], quick:true, h:180, allergens:["Dairy"] },
+  { id:"sk2", cat:"bev", n:"Cold coffee", d:"Iced coffee with milk and sugar. Add ice cream +₹20.", p:100, prep:"6 min", diet:["veg"], quick:true, h:170, allergens:["Dairy"] },
+  { id:"sk3", cat:"bev", n:"Rich badam shake", d:"Almonds, saffron, milk. Indulgent.", p:140, prep:"8 min", diet:["veg"], quick:true, h:190, allergens:["Dairy","Nuts"] },
+  { id:"bc6", cat:"bev", n:"Packaged water", d:"Bottled, chilled.", p:30, prep:"2 min", diet:["veg","vgn","jain"], quick:true, h:130, allergens:[] },
+
+  // ── Desserts ───────────────────────────────────────────────────────
+  { id:"de1", cat:"des", n:"Choice of ice cream", d:"Vanilla, strawberry, mango, butterscotch, kesar pista.", p:80, prep:"5 min", diet:["veg"], pop:true, quick:true, h:160, allergens:["Dairy","Nuts"] },
+  { id:"de2", cat:"des", n:"Hot gulab jamun", d:"Two pieces, warm sugar syrup.", p:70, prep:"6 min", diet:["veg"], pop:true, quick:true, h:160, allergens:["Dairy","Gluten"], pair:"de1" },
+  { id:"de3", cat:"des", n:"Gulab jamun with ice cream", d:"Warm jamun against cold vanilla. The classic.", p:99, prep:"7 min", diet:["veg"], pop:true, quick:true, h:170, allergens:["Dairy","Gluten"] },
+  { id:"de4", cat:"des", n:"Rasgulla", d:"Two pieces, chilled, in sweet syrup.", p:70, prep:"5 min", diet:["veg"], quick:true, h:150, allergens:["Dairy"] },
+  { id:"de5", cat:"des", n:"Kheer", d:"Slow-cooked rice pudding, cardamom, saffron.", p:90, prep:"8 min", diet:["veg"], quick:true, h:160, allergens:["Dairy","Nuts"] },
+];
+
+const FILTERS = [
+  { id:"pop",  t:"Popular" },
+  { id:"nv",   t:"Non-veg" },
+  { id:"veg",  t:"Veg only" },
+  { id:"quick",t:"Quick delivery" },
+  { id:"u200", t:"Under ₹200" },
+];
+
+const AI_PROMPTS = [
+  "What's good tonight?",
+  "Best non-veg dishes",
+  "Something under ₹200",
+  "Veg options only",
+  "Quickest to deliver",
+  "Light and healthy",
+];
+
+const AI_REPLY = {
+  greeting:"Good evening, sir. I'm the House of Tandoor concierge. I can suggest dishes, plan a meal, or help with your order. What are you in the mood for?",
+  veg: {
+    text:"Three picks from our tandoor and kitchen — the paneer butter masala is always a safe bet, and the veg dum biryani is the cleanest one-bowl meal we make.",
+    items:["pn1","sb1","rc4"],
+  },
+  under500: {
+    text:"Most of our menu is under ₹500. Here are three I'd recommend tonight:",
+    items:["nv1","dl2","de3"],
+  },
+  light: {
+    text:"For something light — the clear soup is ten minutes, the kachumber keeps things easy, and a chaas to wash it down.",
+    items:["so4","sa2","bc4"],
+  },
+};
+
+const TIMELINE_DEFAULT = [
+  { k:"placed",   t:"Order placed",  ts:"21:14" },
+  { k:"accepted", t:"Accepted",       ts:"21:15" },
+  { k:"prep",     t:"Preparing",      ts:"21:18" },
+  { k:"ready",    t:"Ready",          ts:"—" },
+  { k:"otw",      t:"On the way",     ts:"—" },
+  { k:"delivered",t:"Delivered",      ts:"—" },
+];
+
+window.HOTEL = HOTEL;
+window.CATS = CATS;
+window.ITEMS = ITEMS;
+window.FILTERS = FILTERS;
+window.AI_PROMPTS = AI_PROMPTS;
+window.AI_REPLY = AI_REPLY;
+window.TIMELINE_DEFAULT = TIMELINE_DEFAULT;
